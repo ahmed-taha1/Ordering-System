@@ -1,7 +1,7 @@
 package OrderingSystem.Orders.Entities;
 
 import OrderingSystem.Address.Address;
-import OrderingSystem.Product.Product;
+import OrderingSystem.Products.Product;
 
 import java.util.ArrayList;
 import java.util.Collection;
