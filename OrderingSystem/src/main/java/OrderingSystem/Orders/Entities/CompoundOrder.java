@@ -1,8 +1,5 @@
 package OrderingSystem.Orders.Entities;
 
-import OrderingSystem.Address.Address;
-import org.springframework.core.annotation.Order;
-
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -22,9 +19,9 @@ public class CompoundOrder implements IOrderComponent{
         this.id = id;
     }
     @Override
-    public double getPrice() {
+    public double getTotalPrice() {
         return orderComponents.stream()
-                .mapToDouble(SimpleOrder::getPrice)
+                .mapToDouble(SimpleOrder::getTotalPrice)
                 .sum();
     }
     @Override
@@ -36,15 +33,15 @@ public class CompoundOrder implements IOrderComponent{
         return OrderType.compoundOrder;
     }
     @Override
-    public Collection<OrderDetails> getOrderDetail() {
+    public Collection<SimpleOrder> getOrderDetail() {
        return orderComponents.stream()
                .flatMap(order -> order.getOrderDetail().stream())
                .collect(Collectors.toList());
     }
     @Override
-    public Collection<String> getOrderOwner() {
+    public Collection<String> getAllOrderOwners() {
         return orderComponents.stream()
-                .flatMap(order -> order.getOrderOwner().stream())
+                .flatMap(order -> order.getAllOrderOwners().stream())
                 .collect(Collectors.toList());
     }
     @Override

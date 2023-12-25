@@ -29,7 +29,7 @@ public class InMemoryOrdersDataAccess implements IOrderDataAccess{
     @Override
     public Collection<IOrderComponent> getCustomerOrders(String customerEmail) {
         return ordersDB.values().stream()
-                .filter(order ->order.getOrderOwner().contains(customerEmail))
+                .filter(order ->order.getAllOrderOwners().contains(customerEmail))
                 .collect(Collectors.toList());
     }
 }

@@ -36,17 +36,17 @@ public class SimpleOrder implements IOrderComponent{
         return;
     }
     @Override
-    public double getPrice() {
+    public double getTotalPrice() {
         return products.stream()
                 .mapToDouble(Product::getPrice)
                 .sum();
     }
     @Override
-    public Collection<OrderDetails> getOrderDetail() {
-        return List.of(new OrderDetails(this.id,ownerEmail,deliveryAddress,products));
+    public Collection<SimpleOrder> getOrderDetail() {
+        return List.of(this);
     }
     @Override
-    public Collection<String> getOrderOwner() {
+    public Collection<String> getAllOrderOwners() {
         return List.of(this.ownerEmail);
     }
     @Override
@@ -56,5 +56,8 @@ public class SimpleOrder implements IOrderComponent{
     @Override
     public void updateOrderStatus(OrderStatus status) {
         this.status = status;
+    }
+    public String getMainOrderOwner(){
+        return this.ownerEmail;
     }
 }
