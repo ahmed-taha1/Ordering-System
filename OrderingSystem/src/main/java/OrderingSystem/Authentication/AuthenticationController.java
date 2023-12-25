@@ -4,10 +4,9 @@ import OrderingSystem.Customer.Customer;
 import OrderingSystem.Customer.InMemoryCustomersDataAccess;
 import OrderingSystem.Customer.ICustomersDataAccess;
 import OrderingSystem.OrderingSystemApplication;
-import Services.AuthenticationService;
+import OrderingSystem.Services.AuthenticationService;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AuthenticationController {

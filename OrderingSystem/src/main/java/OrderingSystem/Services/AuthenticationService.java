@@ -1,4 +1,4 @@
-package Services;
+package OrderingSystem.Services;
 
 import OrderingSystem.Address.Address;
 import OrderingSystem.Authentication.AuthenticationController;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "OrderingSystem")
 public class AuthenticationService {
-    private static ICustomersDataAccess customersDataAccess = InMemoryCustomersDataAccess.getInstance();
-
     @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody LoginCustomerDataBodyRequest request){
         if(!AuthenticationController.login(request)){
@@ -39,6 +37,7 @@ public class AuthenticationService {
         }
         return OrderingSystemApplication.activeUser.getEmail();
     }
+
     public record LoginCustomerDataBodyRequest(
         String email,
         String password
