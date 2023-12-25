@@ -35,6 +35,20 @@ public class InMemoryProductsDataAccess implements IProductsDataAccess {
     }
 
     @Override
+    public String getProductsList() {
+        String productsList = "";
+        for(Product product : productsDB.values()){
+            productsList += product.getName() + "\n";
+            productsList += "vendor: " + product.getVendor() + "\n";
+            productsList += "category: " + product.getCategory() + "\n";
+            productsList += "price: " + product.getPrice() + "\n";
+            productsList += "Serial Number: " + product.getSerialNumber() + "\n";
+            productsList += "---------------------------------------------\n";
+        }
+        return productsList;
+    }
+
+    @Override
     public Product getProductByName(String productName){
         for (Product product: productsDB.values()) {
             if(product.getName().equals(productName)){

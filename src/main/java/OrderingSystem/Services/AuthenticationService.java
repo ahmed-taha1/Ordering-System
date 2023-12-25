@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "OrderingSystem")
+@RequestMapping(path = "orderingSystem/authentication")
 public class AuthenticationService {
     @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody LoginCustomerDataBodyRequest request){
@@ -28,6 +28,14 @@ public class AuthenticationService {
         return ResponseEntity.ok("Successfully registered");
     }
 
+    @PostMapping("logout")
+    public ResponseEntity<String> logout(){
+        if(OrderingSystemApplication.activeUser == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("please login first");
+        }
+        OrderingSystemApplication.activeUser = null;
+        return ResponseEntity.ok("logged out Successfully");
+    }
 
     // for testing only
     @GetMapping("getActiveUserEmail")
