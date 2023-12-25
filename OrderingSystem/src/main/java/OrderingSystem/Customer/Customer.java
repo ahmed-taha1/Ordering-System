@@ -4,7 +4,7 @@ public class Customer {
     private final String email;
     private final String password;
     private final String phoneNumber;
-    private final double balance;
+    private double balance;
     public Customer(String email, String password, String phoneNumber, double balance) {
         this.email = email;
         this.password = password;
@@ -22,5 +22,11 @@ public class Customer {
     }
     public double getBalance() {
         return balance;
+    }
+    public void withdraw(double amount) throws Exception {
+        if(amount > balance){
+            throw new Exception("Insuffecient Balance");
+        }
+        this.balance -= amount;
     }
 }
