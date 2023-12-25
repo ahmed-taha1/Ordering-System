@@ -9,9 +9,8 @@ public class CompoundOrder implements IOrderComponent{
     private OrderStatus status;
     private final Address deliveryAddress;
     private int id;
-    public CompoundOrder(Collection<SimpleOrder> orderComponents, OrderStatus status, Address deliveryAddress) {
+    public CompoundOrder(Collection<SimpleOrder> orderComponents, Address deliveryAddress) {
         this.orderComponents = orderComponents;
-        this.status = status;
         this.deliveryAddress = deliveryAddress;
     }
     @Override
