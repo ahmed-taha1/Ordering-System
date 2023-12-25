@@ -10,7 +10,7 @@ public class CompoundOrder implements IOrderComponent{
     private final Collection<SimpleOrder>orderComponents;
     private OrderStatus status;
     private int id;
-    public CompoundOrder(Collection<SimpleOrder> orderComponents, Address deliveryAddress) {
+    public CompoundOrder(Collection<SimpleOrder> orderComponents) {
         this.orderComponents = orderComponents;
         this.status = OrderStatus.preparing;
     }
