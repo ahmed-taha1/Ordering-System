@@ -1,17 +1,18 @@
 package OrderingSystem.Orders.Entities;
 
 import OrderingSystem.Address.Address;
+import org.springframework.core.annotation.Order;
+
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class CompoundOrder implements IOrderComponent{
     private final Collection<SimpleOrder>orderComponents;
     private OrderStatus status;
-    private final Address deliveryAddress;
     private int id;
     public CompoundOrder(Collection<SimpleOrder> orderComponents, Address deliveryAddress) {
         this.orderComponents = orderComponents;
-        this.deliveryAddress = deliveryAddress;
+        this.status = OrderStatus.preparing;
     }
     @Override
     public int getId() {
@@ -45,10 +46,6 @@ public class CompoundOrder implements IOrderComponent{
         return orderComponents.stream()
                 .flatMap(order -> order.getOrderOwner().stream())
                 .collect(Collectors.toList());
-    }
-    @Override
-    public Address getDeliveryAddress() {
-        return deliveryAddress;
     }
     @Override
     public OrderStatus getOrderStatus() {

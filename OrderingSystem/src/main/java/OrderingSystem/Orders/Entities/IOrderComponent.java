@@ -16,5 +16,4 @@ public interface IOrderComponent {
     public Collection<String> getOrderOwner();
     public OrderStatus getOrderStatus();
     public void updateOrderStatus(OrderStatus status);
-    public Address getDeliveryAddress();
 }

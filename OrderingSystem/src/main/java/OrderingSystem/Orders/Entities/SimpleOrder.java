@@ -57,8 +57,4 @@ public class SimpleOrder implements IOrderComponent{
     public void updateOrderStatus(OrderStatus status) {
         this.status = status;
     }
-    @Override
-    public Address getDeliveryAddress() {
-        return deliveryAddress;
-    }
 }
