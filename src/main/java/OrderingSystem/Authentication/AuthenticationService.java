@@ -4,14 +4,13 @@ import OrderingSystem.Customer.Customer;
 import OrderingSystem.Customer.InMemoryCustomersDataAccess;
 import OrderingSystem.Customer.ICustomersDataAccess;
 import OrderingSystem.OrderingSystemApplication;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.regex.Pattern;
 
 public class AuthenticationService {
     private static final ICustomersDataAccess customersDataAccess = InMemoryCustomersDataAccess.getInstance();
 
-    public static boolean login(@RequestParam AuthenticationController.LoginCustomerDataBodyRequest data){
+    public static boolean login(RequestsBodyRecord.LoginCustomerDataBodyRequest data){
         Customer quiredCustomer = customersDataAccess.getCustomerByEmail(data.email());
         if(quiredCustomer == null || !quiredCustomer.getPassword().equals(data.password())){
             return false;
@@ -20,7 +19,7 @@ public class AuthenticationService {
         return true;
     }
 
-    public static boolean register(@RequestParam AuthenticationController.RegisterCustomerDataBodyRequest data){
+    public static boolean register(RequestsBodyRecord.RegisterCustomerDataBodyRequest data){
         boolean isEmailExistBefore = (customersDataAccess.getCustomerByEmail(data.email()) != null);
         boolean isAddressNull = (data.address() == null);
         boolean isBalanceInvalid = (data.balance() <= 0);

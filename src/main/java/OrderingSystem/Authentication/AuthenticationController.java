@@ -1,6 +1,5 @@
 package OrderingSystem.Authentication;
 
-import OrderingSystem.Address.Address;
 import OrderingSystem.OrderingSystemApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "")
 public class AuthenticationController {
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody LoginCustomerDataBodyRequest request){
+    public ResponseEntity<String> login(@RequestBody RequestsBodyRecord.LoginCustomerDataBodyRequest request){
         if(!AuthenticationService.login(request)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid user name or password");
         }
@@ -18,7 +17,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterCustomerDataBodyRequest request){
+    public ResponseEntity<String> register(@RequestBody RequestsBodyRecord.RegisterCustomerDataBodyRequest request){
         if(!AuthenticationService.register(request)){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid data");
         }
@@ -43,15 +42,4 @@ public class AuthenticationController {
         return OrderingSystemApplication.activeUser.getEmail();
     }
 
-    public record LoginCustomerDataBodyRequest(
-        String email,
-        String password
-    ){}
-    public record RegisterCustomerDataBodyRequest(
-            String email,
-            String password,
-            String phoneNumber,
-            Address address,
-            double balance
-    ){}
 }
