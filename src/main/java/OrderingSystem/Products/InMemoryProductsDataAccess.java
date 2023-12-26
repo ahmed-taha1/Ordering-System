@@ -1,7 +1,6 @@
 package OrderingSystem.Products;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryProductsDataAccess implements IProductsDataAccess {
     Map<String, Product> productsDB;
@@ -35,17 +34,8 @@ public class InMemoryProductsDataAccess implements IProductsDataAccess {
     }
 
     @Override
-    public String getProductsList() {
-        String productsList = "";
-        for(Product product : productsDB.values()){
-            productsList += product.getName() + "\n";
-            productsList += "vendor: " + product.getVendor() + "\n";
-            productsList += "category: " + product.getCategory() + "\n";
-            productsList += "price: " + product.getPrice() + "\n";
-            productsList += "Serial Number: " + product.getSerialNumber() + "\n";
-            productsList += "---------------------------------------------\n";
-        }
-        return productsList;
+    public Collection<Product> getProductsList() {
+        return productsDB.values();
     }
 
     @Override
