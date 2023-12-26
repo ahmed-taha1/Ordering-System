@@ -11,7 +11,7 @@ import java.util.Collection;
 public class ProductsController {
     private IProductsDataAccess productsDataAccess = InMemoryProductsDataAccess.getInstance();
 
-    @GetMapping("")
+    @GetMapping("/")
     public Collection<Product> getProducts(){
         return productsDataAccess.getProductsList();
     }
