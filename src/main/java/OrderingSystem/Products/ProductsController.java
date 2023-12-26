@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 
 @RestController
-@RequestMapping(path = "orderingSystem/products")
+@RequestMapping(path = "products")
 public class ProductsController {
     private IProductsDataAccess productsDataAccess = InMemoryProductsDataAccess.getInstance();
 
-    @GetMapping("getProducts")
+    @GetMapping("")
     public Collection<Product> getProducts(){
         return productsDataAccess.getProductsList();
     }
