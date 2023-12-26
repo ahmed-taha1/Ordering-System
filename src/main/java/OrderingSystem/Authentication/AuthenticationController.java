@@ -1,61 +1,57 @@
 package OrderingSystem.Authentication;
 
-import OrderingSystem.Customer.Customer;
-import OrderingSystem.Customer.InMemoryCustomersDataAccess;
-import OrderingSystem.Customer.ICustomersDataAccess;
+import OrderingSystem.Address.Address;
 import OrderingSystem.OrderingSystemApplication;
-import OrderingSystem.Services.AuthenticationService;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.regex.Pattern;
-
+@RestController
+@RequestMapping(path = "")
 public class AuthenticationController {
-    private static final ICustomersDataAccess customersDataAccess = InMemoryCustomersDataAccess.getInstance();
-
-    public static boolean login(@RequestParam AuthenticationService.LoginCustomerDataBodyRequest data){
-        Customer quiredCustomer = customersDataAccess.getCustomerByEmail(data.email());
-        if(quiredCustomer == null || !quiredCustomer.getPassword().equals(data.password())){
-            return false;
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody LoginCustomerDataBodyRequest request){
+        if(!AuthenticationService.login(request)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid user name or password");
         }
-        OrderingSystemApplication.activeUser = quiredCustomer;
-        return true;
+        return ResponseEntity.ok("Successfully logged in");
     }
 
-    public static boolean register(@RequestParam AuthenticationService.RegisterCustomerDataBodyRequest data){
-        boolean isEmailExistBefore = (customersDataAccess.getCustomerByEmail(data.email()) != null);
-        boolean isAddressNull = (data.address() == null);
-        boolean isBalanceInvalid = (data.balance() <= 0);
-        boolean isPasswordInvalid = !passwordPattern.matcher(data.password()).matches();
-        boolean isEmailInvalid = !emailPattern.matcher(data.email()).matches();
-        if(isEmailExistBefore || isAddressNull || isBalanceInvalid || isPasswordInvalid || isEmailInvalid){
-            return false;
+    @PostMapping("register")
+    public ResponseEntity<String> register(@RequestBody RegisterCustomerDataBodyRequest request){
+        if(!AuthenticationService.register(request)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid data");
         }
-        Customer newCustomer = new Customer(data.email(), data.password(), data.phoneNumber(), data.balance(), data.address());
-        customersDataAccess.insertCustomerToDB(newCustomer);
-        return true;
+        return ResponseEntity.ok("Successfully registered");
     }
 
+    @PostMapping("logout")
+    public ResponseEntity<String> logout(){
+        if(OrderingSystemApplication.activeUser == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("please login first");
+        }
+        OrderingSystemApplication.activeUser = null;
+        return ResponseEntity.ok("logged out Successfully");
+    }
 
-    /** password validation requirements
-     * (?=.*[0-9]): At least one digit.
-     * (?=.*[a-z]): At least one lowercase letter.
-     * (?=.*[A-Z]): At least one uppercase letter.
-     * (?=.*[@#$%^&+=!]): At least one special character (you can customize this set).
-     * (?=\S+$): No whitespaces allowed.
-     * .{8,}: At least 8 characters in total.
-     */
-    private static final String PASSWORD_PATTERN =
-            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
-    private static final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
-    /** email validation requirements
-     * ^[a-zA-Z0-9_+&*-]+: Starts with one or more alphanumeric characters or special characters (underscore, plus, ampersand, asterisk, hyphen).
-     * (?:\\.[a-zA-Z0-9_+&*-]+)*: Followed by zero or more groups of a dot and alphanumeric characters.
-     * /@(?:[a-zA-Z0-9-]+\\.)+: Followed by an at symbol (@) and one or more groups of alphanumeric characters or hyphens followed by a dot.
-     * [a-zA-Z]{2,7}$: Ends with two to seven alphabetic characters.
-     */
-    private static final String EMAIL_PATTERN =
-            "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    // for testing only
+    @GetMapping("getActiveUserEmail")
+    public String getEmail(){
+        if(OrderingSystemApplication.activeUser == null){
+            return "there is no active user";
+        }
+        return OrderingSystemApplication.activeUser.getEmail();
+    }
 
-    private static final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
-
+    public record LoginCustomerDataBodyRequest(
+        String email,
+        String password
+    ){}
+    public record RegisterCustomerDataBodyRequest(
+            String email,
+            String password,
+            String phoneNumber,
+            Address address,
+            double balance
+    ){}
 }
