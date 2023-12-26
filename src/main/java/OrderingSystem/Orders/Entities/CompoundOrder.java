@@ -7,7 +7,9 @@ public class CompoundOrder implements IOrderComponent{
     private final Collection<SimpleOrder>orderComponents;
     private OrderStatus status;
     private int id;
-    public CompoundOrder(Collection<SimpleOrder> orderComponents) {
+    private final String ownerEmail ;
+    public CompoundOrder(String ownerEmail,Collection<SimpleOrder> orderComponents) {
+        this.ownerEmail = ownerEmail;
         this.orderComponents = orderComponents;
         this.status = OrderStatus.preparing;
     }
@@ -33,11 +35,12 @@ public class CompoundOrder implements IOrderComponent{
         return OrderType.compoundOrder;
     }
     @Override
-    public Collection<SimpleOrder> getOrderDetail() {
+    public Collection<SimpleOrder> getOrderDetails() {
        return orderComponents.stream()
-               .flatMap(order -> order.getOrderDetail().stream())
+               .flatMap(order -> order.getOrderDetails().stream())
                .collect(Collectors.toList());
     }
+
     @Override
     public Collection<String> getAllOrderOwners() {
         return orderComponents.stream()
@@ -51,5 +54,10 @@ public class CompoundOrder implements IOrderComponent{
     @Override
     public void updateOrderStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String getMainOrderOwner() {
+        return ownerEmail;
     }
 }

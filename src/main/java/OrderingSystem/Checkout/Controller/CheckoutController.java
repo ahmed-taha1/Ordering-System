@@ -1,5 +1,7 @@
-package OrderingSystem.Checkout;
+package OrderingSystem.Checkout.Controller;
 
+import OrderingSystem.Checkout.CheckoutDetails;
+import OrderingSystem.Checkout.CheckoutService;
 import OrderingSystem.Customer.ICustomersDataAccess;
 import OrderingSystem.OrderingSystemApplication;
 import OrderingSystem.Orders.DataAccess.IOrderDataAccess;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.Map;
 
 @RestController
@@ -28,11 +31,12 @@ public class CheckoutController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message","Order with Id "+requestBody.orderId() +" Not found"));
         }
         IShippingCalculator shippingCalculator = shippingCalculatorFactory.createShippingStrategy(orderComponent.getOrderType());
+        Collection<CheckoutDetails> checkoutDetails ;
         try {
-            CheckoutService.checkout(orderComponent,shippingCalculator,customersDataAccess);
+             checkoutDetails = CheckoutService.checkout(orderComponent,shippingCalculator,customersDataAccess);
         }catch (Exception exception){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message",exception.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyRecords.CheckoutFailedRecord(exception.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message","Order Checkout successfully"));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBodyRecords.CheckoutDetailsRecord(checkoutDetails,"Checked out successfully"));
     }
 }

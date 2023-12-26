@@ -32,4 +32,18 @@ public class InMemoryOrdersDataAccess implements IOrderDataAccess{
                 .filter(order ->order.getAllOrderOwners().contains(customerEmail))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void insertOrder(IOrderComponent order) {
+        order.setId(getNextOrderID());
+        ordersDB.put(order.getId(), order);
+    }
+
+    @Override
+    public int getNextOrderID() {
+        return ordersDB.keySet().stream()
+                .mapToInt(Integer::intValue)
+                .max()
+                .orElse(0) + 1;
+    }
 }

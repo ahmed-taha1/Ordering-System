@@ -8,12 +8,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class SimpleOrder implements IOrderComponent{
-    private final List<Product>products ;
-    private final String ownerEmail ;
+    private final List<OrderItem>products;
+    private final String ownerEmail;
     private OrderStatus status;
     private final Address deliveryAddress;
     private int id;
-    public SimpleOrder(String ownerEmail,Address deliveryAddress,Collection<Product> products){
+    public SimpleOrder(String ownerEmail,Address deliveryAddress,Collection<OrderItem> products){
         this.ownerEmail = ownerEmail;
         this.deliveryAddress = deliveryAddress;
         this.products = new ArrayList<>();
@@ -31,6 +31,11 @@ public class SimpleOrder implements IOrderComponent{
     public OrderType getOrderType() {
         return OrderType.simpleOrder;
     }
+
+    public Address getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
     @Override
     public void addOrder(SimpleOrder order) {
         return;
@@ -38,17 +43,22 @@ public class SimpleOrder implements IOrderComponent{
     @Override
     public double getTotalPrice() {
         return products.stream()
-                .mapToDouble(Product::getPrice)
+                .mapToDouble(OrderItem::getItemPrice)
                 .sum();
     }
+
+    public List<OrderItem> getProducts() {
+        return products;
+    }
     @Override
-    public Collection<SimpleOrder> getOrderDetail() {
+    public Collection<SimpleOrder> getOrderDetails() {
         return List.of(this);
     }
     @Override
     public Collection<String> getAllOrderOwners() {
         return List.of(this.ownerEmail);
     }
+
     @Override
     public OrderStatus getOrderStatus() {
         return status;

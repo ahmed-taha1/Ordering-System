@@ -26,20 +26,20 @@ public class AuthenticationController {
 
     @PostMapping("logout")
     public ResponseEntity<String> logout(){
-        if(OrderingSystemApplication.activeUser == null){
+        if(OrderingSystemApplication.getActiveUser() == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("please login first");
         }
-        OrderingSystemApplication.activeUser = null;
+        OrderingSystemApplication.setActiveUser(null);
         return ResponseEntity.ok("logged out Successfully");
     }
 
     // for testing only
     @GetMapping("getActiveUserEmail")
     public String getEmail(){
-        if(OrderingSystemApplication.activeUser == null){
+        if(OrderingSystemApplication.getActiveUser() == null){
             return "there is no active user";
         }
-        return OrderingSystemApplication.activeUser.getEmail();
+        return OrderingSystemApplication.getActiveUser().getEmail();
     }
 
 }

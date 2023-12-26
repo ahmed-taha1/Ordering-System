@@ -15,7 +15,7 @@ public class AuthenticationService {
         if(quiredCustomer == null || !quiredCustomer.getPassword().equals(data.password())){
             return false;
         }
-        OrderingSystemApplication.activeUser = quiredCustomer;
+        OrderingSystemApplication.setActiveUser(quiredCustomer);
         return true;
     }
 

@@ -9,8 +9,9 @@ public interface IOrderComponent {
     public void addOrder(SimpleOrder order);
     public double getTotalPrice();
     public OrderType getOrderType();
-    public Collection<SimpleOrder>getOrderDetail();
+    public Collection<SimpleOrder> getOrderDetails();
     public Collection<String> getAllOrderOwners();
     public OrderStatus getOrderStatus();
     public void updateOrderStatus(OrderStatus status);
+    public String getMainOrderOwner();
 }
