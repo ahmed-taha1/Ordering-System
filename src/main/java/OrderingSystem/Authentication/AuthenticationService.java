@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class AuthenticationService {
     private static final ICustomersDataAccess customersDataAccess = InMemoryCustomersDataAccess.getInstance();
 
-    public static boolean login(RequestsBodyRecord.LoginCustomerDataBodyRequest data){
+    public static boolean login(RequestsBodyRecords.LoginCustomerDataBodyRequest data){
         Customer quiredCustomer = customersDataAccess.getCustomerByEmail(data.email());
         if(quiredCustomer == null || !quiredCustomer.getPassword().equals(data.password())){
             return false;
@@ -19,7 +19,7 @@ public class AuthenticationService {
         return true;
     }
 
-    public static boolean register(RequestsBodyRecord.RegisterCustomerDataBodyRequest data){
+    public static boolean register(RequestsBodyRecords.RegisterCustomerDataBodyRequest data){
         boolean isEmailExistBefore = (customersDataAccess.getCustomerByEmail(data.email()) != null);
         boolean isAddressNull = (data.address() == null);
         boolean isBalanceInvalid = (data.balance() <= 0);

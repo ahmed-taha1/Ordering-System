@@ -2,7 +2,7 @@ package OrderingSystem.Authentication;
 
 import OrderingSystem.Address.Address;
 
-public class RequestsBodyRecord {
+public class RequestsBodyRecords {
     public static record LoginCustomerDataBodyRequest(
             String email,
             String password

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "")
 public class AuthenticationController {
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody RequestsBodyRecord.LoginCustomerDataBodyRequest request){
+    public ResponseEntity<String> login(@RequestBody RequestsBodyRecords.LoginCustomerDataBodyRequest request){
         if(!AuthenticationService.login(request)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid user name or password");
         }
@@ -17,7 +17,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RequestsBodyRecord.RegisterCustomerDataBodyRequest request){
+    public ResponseEntity<String> register(@RequestBody RequestsBodyRecords.RegisterCustomerDataBodyRequest request){
         if(!AuthenticationService.register(request)){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid data");
         }
