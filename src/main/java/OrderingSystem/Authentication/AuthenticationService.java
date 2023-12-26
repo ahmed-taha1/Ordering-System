@@ -8,7 +8,7 @@ import OrderingSystem.OrderingSystemApplication;
 import java.util.regex.Pattern;
 
 public class AuthenticationService {
-    private static final ICustomersDataAccess customersDataAccess = InMemoryCustomersDataAccess.getInstance();
+    private static final ICustomersDataAccess customersDataAccess = OrderingSystemApplication.getCustomersDataAccess();
 
     public static boolean login(RequestsBodyRecords.LoginCustomerDataBodyRequest data){
         Customer quiredCustomer = customersDataAccess.getCustomerByEmail(data.email());

@@ -9,7 +9,7 @@ import OrderingSystem.Shipping.Entities.IShippingCalculator;
 import java.util.Collection;
 
 public class CheckoutService {
-    public void checkout(IOrderComponent order, IShippingCalculator shippingCalculator, ICustomersDataAccess customersDataAccess) throws Exception {
+    public static void checkout(IOrderComponent order, IShippingCalculator shippingCalculator, ICustomersDataAccess customersDataAccess) throws Exception {
        Collection<SimpleOrder> orders = order.getOrderDetail();
        for (SimpleOrder currentOrder : orders) {
            double shippingPrice = shippingCalculator.calculateShippingCost(currentOrder);

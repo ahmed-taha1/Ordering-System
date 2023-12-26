@@ -9,7 +9,7 @@ import java.util.Map;
 public class ShippingCalculatorFactory {
     private static ShippingCalculatorFactory factoryInstance = null;
     private final Map<OrderType,IShippingCalculator> shippingCalculatorStrategies;
-    private static ShippingCalculatorFactory getInstance(){
+    public static ShippingCalculatorFactory getInstance(){
         if(factoryInstance == null){
             factoryInstance = new ShippingCalculatorFactory();
         }
