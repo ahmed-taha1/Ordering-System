@@ -5,8 +5,8 @@ import OrderingSystem.Customer.InMemoryCustomersDataAccess;
 import OrderingSystem.Orders.DataAccess.IOrderDataAccess;
 import OrderingSystem.Orders.DataAccess.InMemoryOrdersDataAccess;
 import OrderingSystem.Orders.Factories.OrdersFactory;
-import OrderingSystem.Products.IProductsDataAccess;
-import OrderingSystem.Products.InMemoryProductsDataAccess;
+import OrderingSystem.Products.DataAccess.IProductsDataAccess;
+import OrderingSystem.Products.DataAccess.InMemoryProductsDataAccess;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 

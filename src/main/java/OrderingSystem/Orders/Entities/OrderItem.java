@@ -1,6 +1,6 @@
 package OrderingSystem.Orders.Entities;
 
-import OrderingSystem.Products.Product;
+import OrderingSystem.Products.Entities.Product;
 
 public class OrderItem {
     private final Product product;

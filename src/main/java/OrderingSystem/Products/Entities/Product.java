@@ -1,4 +1,4 @@
-package OrderingSystem.Products;
+package OrderingSystem.Products.Entities;
 
 public class Product {
     private final String serialNumber;

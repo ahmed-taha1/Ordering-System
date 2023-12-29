@@ -9,7 +9,7 @@ public class CompoundOrderShipping implements IShippingCalculator{
     private static final int MAX_SHIPPING = 150;
     private static final int COMPOUND_DISCOUNT = 2;
     @Override
-    public double calculateShippingCost(SimpleOrder orderComponent) throws Exception {
+    public double calculateShippingCost(SimpleOrder orderComponent) {
         return (new Random().nextDouble(MAX_SHIPPING - MIN_SHIPPING + 1) + MIN_SHIPPING) /  COMPOUND_DISCOUNT;
     }
 }

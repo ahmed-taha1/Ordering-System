@@ -1,14 +1,15 @@
 package OrderingSystem.Orders.Entities;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CompoundOrder implements IOrderComponent{
-    private final Collection<SimpleOrder>orderComponents;
+    private final List<SimpleOrder> orderComponents;
     private OrderStatus status;
     private int id;
     private final String ownerEmail ;
-    public CompoundOrder(String ownerEmail,Collection<SimpleOrder> orderComponents) {
+    public CompoundOrder(String ownerEmail,List<SimpleOrder> orderComponents) {
         this.ownerEmail = ownerEmail;
         this.orderComponents = orderComponents;
         this.status = OrderStatus.preparing;
@@ -35,16 +36,17 @@ public class CompoundOrder implements IOrderComponent{
         return OrderType.compoundOrder;
     }
     @Override
-    public Collection<SimpleOrder> getOrderDetails() {
-       return orderComponents.stream()
-               .flatMap(order -> order.getOrderDetails().stream())
-               .collect(Collectors.toList());
+    public List<SimpleOrder> getOrderDetails() {
+//       return orderComponents.stream()
+//               .flatMap(order -> order.getOrderDetails().stream())
+//               .collect(Collectors.toList());
+        return orderComponents;
     }
 
     @Override
-    public Collection<String> getAllOrderOwners() {
+    public List<String> getAllOrderOwners() {
         return orderComponents.stream()
-                .flatMap(order -> order.getAllOrderOwners().stream())
+                .map(SimpleOrder::getMainOrderOwner)
                 .collect(Collectors.toList());
     }
     @Override

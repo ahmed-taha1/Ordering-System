@@ -1,6 +1,7 @@
 package OrderingSystem.Orders.Controller;
 
 import OrderingSystem.Address.Address;
+import OrderingSystem.Orders.Entities.IOrderComponent;
 import OrderingSystem.Orders.Entities.OrderItem;
 import OrderingSystem.Orders.Entities.OrderStatus;
 import OrderingSystem.Orders.Entities.SimpleOrder;
@@ -13,11 +14,11 @@ public class ResponseBodyRecords {
             int id,
             String message
     ){}
-    public record getOrderDetailsResponseeeee(
-            Collection<SimpleOrder> order,
+    public record getOrderDetailsResponse(
+            IOrderComponent order,
             String message
     ){}
-    public record getOrderDetailsResponse(
+    public record getOrderDetailsResponseTest(
             List<OrderItem> products,
             String ownerEmail,
             OrderStatus status,

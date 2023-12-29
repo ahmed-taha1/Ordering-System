@@ -2,12 +2,7 @@ package OrderingSystem.Checkout.Controller;
 
 import OrderingSystem.Checkout.CheckoutDetails;
 import OrderingSystem.Checkout.CheckoutService;
-import OrderingSystem.Customer.ICustomersDataAccess;
-import OrderingSystem.OrderingSystemApplication;
-import OrderingSystem.Orders.DataAccess.IOrderDataAccess;
-import OrderingSystem.Orders.Entities.IOrderComponent;
-import OrderingSystem.Shipping.Entities.IShippingCalculator;
-import OrderingSystem.Shipping.Factories.ShippingCalculatorFactory;
+import OrderingSystem.Exceptions.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,27 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path="checkout")
 public class CheckoutController {
-    private final ICustomersDataAccess customersDataAccess = OrderingSystemApplication.getCustomersDataAccess();
-    private final IOrderDataAccess orderDataAccess = OrderingSystemApplication.getOrderDataAccess();
-    private final ShippingCalculatorFactory shippingCalculatorFactory = ShippingCalculatorFactory.getInstance();
     @PostMapping("/")
     public ResponseEntity<Object> checkout(@RequestBody RequestsBodyRecords.CheckoutRequestBody requestBody){
-        IOrderComponent orderComponent = orderDataAccess.getOrderById(requestBody.orderId());
-        if(orderComponent == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message","Order with Id "+requestBody.orderId() +" Not found"));
-        }
-        IShippingCalculator shippingCalculator = shippingCalculatorFactory.createShippingStrategy(orderComponent.getOrderType());
-        Collection<CheckoutDetails> checkoutDetails ;
         try {
-             checkoutDetails = CheckoutService.checkout(orderComponent,shippingCalculator,customersDataAccess);
+            Collection<CheckoutDetails> checkoutDetails = CheckoutService.checkout(requestBody.orderId());
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseBodyRecords.CheckoutDetailsRecord(checkoutDetails,"Checked out successfully"));
         }catch (Exception exception){
+            if(exception instanceof CustomException){
+                return ResponseEntity.status(((CustomException) exception).getStatusCode()).body(new ResponseBodyRecords.CheckoutFailedRecord(exception.getMessage()));
+            }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyRecords.CheckoutFailedRecord(exception.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBodyRecords.CheckoutDetailsRecord(checkoutDetails,"Checked out successfully"));
     }
 }

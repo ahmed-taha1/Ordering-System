@@ -1,4 +1,6 @@
-package OrderingSystem.Products;
+package OrderingSystem.Products.DataAccess;
+
+import OrderingSystem.Products.Entities.Product;
 
 import java.util.*;
 
@@ -36,6 +38,15 @@ public class InMemoryProductsDataAccess implements IProductsDataAccess {
     @Override
     public Collection<Product> getProductsList() {
         return productsDB.values();
+    }
+
+    @Override
+    public Map<String, Integer> getCategoriesCount() {
+        Map<String, Integer> categoriesCount = new HashMap<>();
+        for (Product p : productsDB.values()) {
+            categoriesCount.merge(p.getCategory(), 1, Integer::sum);
+        }
+        return categoriesCount;
     }
 
     @Override

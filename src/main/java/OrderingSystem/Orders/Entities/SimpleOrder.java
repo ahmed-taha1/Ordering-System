@@ -1,10 +1,7 @@
 package OrderingSystem.Orders.Entities;
 
 import OrderingSystem.Address.Address;
-import OrderingSystem.Products.Product;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class SimpleOrder implements IOrderComponent{
@@ -13,11 +10,10 @@ public class SimpleOrder implements IOrderComponent{
     private OrderStatus status;
     private final Address deliveryAddress;
     private int id;
-    public SimpleOrder(String ownerEmail,Address deliveryAddress,Collection<OrderItem> products){
+    public SimpleOrder(String ownerEmail,Address deliveryAddress,List<OrderItem> products){
         this.ownerEmail = ownerEmail;
         this.deliveryAddress = deliveryAddress;
-        this.products = new ArrayList<>();
-        this.products.addAll(products);
+        this.products = products;
         this.status = OrderStatus.preparing;
     }
     public void setId(int id) {
@@ -51,12 +47,14 @@ public class SimpleOrder implements IOrderComponent{
         return products;
     }
     @Override
-    public Collection<SimpleOrder> getOrderDetails() {
-        return List.of(this);
+    public List<SimpleOrder> getOrderDetails() {
+        return null;
+        // infinity calls
+//        return List.of(this);
     }
     @Override
-    public Collection<String> getAllOrderOwners() {
-        return List.of(this.ownerEmail);
+    public List<String> getAllOrderOwners() {
+        return null;
     }
 
     @Override
