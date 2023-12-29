@@ -1,6 +1,7 @@
-package OrderingSystem.Customer;
+package OrderingSystem.Customer.DataAccess;
 
 import OrderingSystem.Address.Address;
+import OrderingSystem.Customer.Entities.Customer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +12,11 @@ public class InMemoryCustomersDataAccess implements ICustomersDataAccess {
     private InMemoryCustomersDataAccess(){
         customersDB = new HashMap<>();
         customersDB.put("ahmedtaha@yahoo.com", new Customer(
+                    "ahmed taha",
                     "ahmedtaha@yahoo.com",
                     "password",
                     "01120293048",
-                    1200,
+                    120000000,
                     new Address("haram", "giza")));
     }
 

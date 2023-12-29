@@ -1,7 +1,8 @@
 package OrderingSystem;
-import OrderingSystem.Customer.Customer;
-import OrderingSystem.Customer.ICustomersDataAccess;
-import OrderingSystem.Customer.InMemoryCustomersDataAccess;
+import OrderingSystem.Customer.Entities.Customer;
+import OrderingSystem.Customer.DataAccess.ICustomersDataAccess;
+import OrderingSystem.Customer.DataAccess.InMemoryCustomersDataAccess;
+import OrderingSystem.Notification.Entities.NotificationType;
 import OrderingSystem.Orders.DataAccess.IOrderDataAccess;
 import OrderingSystem.Orders.DataAccess.InMemoryOrdersDataAccess;
 import OrderingSystem.Orders.Factories.OrdersFactory;
@@ -10,8 +11,9 @@ import OrderingSystem.Products.DataAccess.InMemoryProductsDataAccess;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 
-
-// todo check if products exist , if not throw Exception to be handled by controller
+// todo add observer pattern for notification queue
+// todo add order Cancellation
+// todo add order statistics and notification stats
 @SpringBootApplication
 public class OrderingSystemApplication {
 
@@ -23,6 +25,7 @@ public class OrderingSystemApplication {
     private final static IOrderDataAccess orderDataAccess = InMemoryOrdersDataAccess.getInstance();
     private final static IProductsDataAccess productsDataAccess = InMemoryProductsDataAccess.getInstance();
     private final static OrdersFactory ordersFactory = OrdersFactory.getInstance();
+    private final static NotificationType notificationType = NotificationType.email;
     public static IOrderDataAccess getOrderDataAccess() {
         return orderDataAccess;
     }
@@ -41,4 +44,5 @@ public class OrderingSystemApplication {
     public static OrdersFactory getOrdersFactory(){
         return ordersFactory;
     }
+    public static NotificationType getNotificationType(){return  notificationType;}
 }

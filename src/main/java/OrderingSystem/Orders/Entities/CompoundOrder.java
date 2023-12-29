@@ -1,5 +1,6 @@
 package OrderingSystem.Orders.Entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,33 +23,37 @@ public class CompoundOrder implements IOrderComponent{
         this.id = id;
     }
     @Override
-    public double getTotalPrice() {
+    public double getTotalCost() {
         return orderComponents.stream()
-                .mapToDouble(SimpleOrder::getTotalPrice)
+                .mapToDouble(SimpleOrder::getTotalCost)
                 .sum();
-    }
-    @Override
-    public void addOrder(SimpleOrder order) {
-        this.orderComponents.add(order);
     }
     @Override
     public OrderType getOrderType() {
         return OrderType.compoundOrder;
     }
     @Override
-    public List<SimpleOrder> getOrderDetails() {
-//       return orderComponents.stream()
-//               .flatMap(order -> order.getOrderDetails().stream())
-//               .collect(Collectors.toList());
+    public List<OrderDetails> getOrderDetails() {
+       return orderComponents.stream()
+               .flatMap(order -> order.getOrderDetails().stream())
+               .collect(Collectors.toList());
+    }
+    public List<SimpleOrder>getOrders(){
         return orderComponents;
     }
-
     @Override
     public List<String> getAllOrderOwners() {
         return orderComponents.stream()
                 .map(SimpleOrder::getMainOrderOwner)
                 .collect(Collectors.toList());
     }
+    @Override
+    public Collection<String> getProductsNames(){
+        return orderComponents.stream()
+                .flatMap(order -> order.getProductsNames().stream())
+                .collect(Collectors.toList());
+    }
+
     @Override
     public OrderStatus getOrderStatus() {
         return status;

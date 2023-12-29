@@ -1,6 +1,6 @@
 package OrderingSystem.Checkout.Controller;
 
-import OrderingSystem.Checkout.CheckoutDetails;
+import OrderingSystem.Checkout.Entities.CheckoutDetails;
 
 import java.util.Collection;
 

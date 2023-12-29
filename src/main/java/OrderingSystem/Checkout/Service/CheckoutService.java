@@ -1,15 +1,14 @@
-package OrderingSystem.Checkout;
+package OrderingSystem.Checkout.Service;
 
-import OrderingSystem.Customer.Customer;
-import OrderingSystem.Customer.ICustomersDataAccess;
+import OrderingSystem.Checkout.Entities.CheckoutDetails;
+import OrderingSystem.Customer.Entities.Customer;
+import OrderingSystem.Customer.DataAccess.ICustomersDataAccess;
 import OrderingSystem.Exceptions.CustomException;
 import OrderingSystem.OrderingSystemApplication;
 import OrderingSystem.Orders.Entities.IOrderComponent;
 import OrderingSystem.Orders.Entities.OrderStatus;
 import OrderingSystem.Orders.Entities.SimpleOrder;
-import OrderingSystem.Orders.OrdersService.OrdersService;
-import OrderingSystem.Shipping.Entities.IShippingCalculator;
-import OrderingSystem.Shipping.Factories.ShippingCalculatorFactory;
+import OrderingSystem.Orders.Service.OrdersService;
 import OrderingSystem.Shipping.Service.ShippingService;
 import OrderingSystem.StatusCodes.StatusCodes;
 
@@ -23,14 +22,15 @@ public class CheckoutService {
         if(order == null){
             throw new CustomException(StatusCodes.NOT_FOUND,"Order Not found");
         }
-        Collection<SimpleOrder> orders = order.getOrderDetails();
+        Collection<SimpleOrder> orders = order.getOrders();
         Collection<CheckoutDetails>checkoutDetails = new ArrayList<>();
         for (SimpleOrder currentOrder : orders) {
             double shippingPrice = ShippingService.calculateShippingCost(currentOrder);
-            double orderCost = currentOrder.getTotalPrice();
+            double orderCost = currentOrder.getTotalCost();
             Customer customer = customersDataAccess.getCustomerByEmail(currentOrder.getMainOrderOwner());
             customer.withdraw(shippingPrice + orderCost);
             currentOrder.updateOrderStatus(OrderStatus.shipped);
+            OrdersService.updateOrder(currentOrder);
             checkoutDetails.add(new CheckoutDetails(customer.getEmail(),orderCost,shippingPrice,currentOrder.getOrderStatus()));
        }
        return checkoutDetails;

@@ -1,8 +1,8 @@
-package OrderingSystem.Authentication;
+package OrderingSystem.Authentication.Service;
 
-import OrderingSystem.Customer.Customer;
-import OrderingSystem.Customer.InMemoryCustomersDataAccess;
-import OrderingSystem.Customer.ICustomersDataAccess;
+import OrderingSystem.Authentication.Controller.RequestsBodyRecords;
+import OrderingSystem.Customer.Entities.Customer;
+import OrderingSystem.Customer.DataAccess.ICustomersDataAccess;
 import OrderingSystem.OrderingSystemApplication;
 
 import java.util.regex.Pattern;
@@ -28,7 +28,7 @@ public class AuthenticationService {
         if(isEmailExistBefore || isAddressNull || isBalanceInvalid || isPasswordInvalid || isEmailInvalid){
             return false;
         }
-        Customer newCustomer = new Customer(data.email(), data.password(), data.phoneNumber(), data.balance(), data.address());
+        Customer newCustomer = new Customer(data.name(), data.email(), data.password(), data.phoneNumber(), data.balance(), data.address());
         customersDataAccess.insertCustomerToDB(newCustomer);
         return true;
     }

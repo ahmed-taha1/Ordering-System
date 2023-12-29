@@ -1,4 +1,6 @@
-package OrderingSystem.Customer;
+package OrderingSystem.Customer.DataAccess;
+
+import OrderingSystem.Customer.Entities.Customer;
 
 public interface ICustomersDataAccess {
     Customer getCustomerByEmail(String email);

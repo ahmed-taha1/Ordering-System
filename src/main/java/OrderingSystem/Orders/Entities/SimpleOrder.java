@@ -2,7 +2,10 @@ package OrderingSystem.Orders.Entities;
 
 import OrderingSystem.Address.Address;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SimpleOrder implements IOrderComponent{
     private final List<OrderItem>products;
@@ -33,24 +36,26 @@ public class SimpleOrder implements IOrderComponent{
     }
 
     @Override
-    public void addOrder(SimpleOrder order) {
-        return;
-    }
-    @Override
-    public double getTotalPrice() {
+    public double getTotalCost() {
         return products.stream()
                 .mapToDouble(OrderItem::getItemPrice)
                 .sum();
     }
-
+    public List<SimpleOrder>getOrders(){
+        return List.of(this);
+    }
     public List<OrderItem> getProducts() {
         return products;
     }
     @Override
-    public List<SimpleOrder> getOrderDetails() {
-        return null;
-        // infinity calls
-//        return List.of(this);
+    public Collection<String> getProductsNames() {
+        return products.stream()
+                .map(orderItem -> orderItem.getProduct().getName())
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<OrderDetails> getOrderDetails() {
+        return List.of(new OrderDetails(ownerEmail,deliveryAddress,status,products, getTotalCost()));
     }
     @Override
     public List<String> getAllOrderOwners() {

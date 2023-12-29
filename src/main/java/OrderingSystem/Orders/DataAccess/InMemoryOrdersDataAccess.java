@@ -40,6 +40,10 @@ public class InMemoryOrdersDataAccess implements IOrderDataAccess{
     }
 
     @Override
+    public void updateOrder(IOrderComponent order) {
+        ordersDB.put(order.getId(), order);
+    }
+    @Override
     public int getNextOrderID() {
         return ordersDB.keySet().stream()
                 .mapToInt(Integer::intValue)

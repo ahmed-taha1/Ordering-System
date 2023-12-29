@@ -4,7 +4,7 @@ import OrderingSystem.Orders.Entities.SimpleOrder;
 
 import java.util.Random;
 
-public class CompoundOrderShipping implements IShippingCalculator{
+public class CompoundOrderShippingCalculator implements IShippingCalculator{
     private static final int MIN_SHIPPING = 50;
     private static final int MAX_SHIPPING = 150;
     private static final int COMPOUND_DISCOUNT = 2;

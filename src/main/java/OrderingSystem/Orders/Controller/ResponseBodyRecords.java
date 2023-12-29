@@ -1,10 +1,7 @@
 package OrderingSystem.Orders.Controller;
 
 import OrderingSystem.Address.Address;
-import OrderingSystem.Orders.Entities.IOrderComponent;
-import OrderingSystem.Orders.Entities.OrderItem;
-import OrderingSystem.Orders.Entities.OrderStatus;
-import OrderingSystem.Orders.Entities.SimpleOrder;
+import OrderingSystem.Orders.Entities.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +12,9 @@ public class ResponseBodyRecords {
             String message
     ){}
     public record getOrderDetailsResponse(
-            IOrderComponent order,
+            String mainOrderOwner,
+            Collection<OrderDetails> ordersDetails,
+            double totalPrice,
             String message
     ){}
     public record getOrderDetailsResponseTest(
@@ -24,5 +23,8 @@ public class ResponseBodyRecords {
             OrderStatus status,
             Address deliveryAddress,
             int id
+    ){}
+    public record placeOrderFailedRecord(
+            String message
     ){}
 }

@@ -1,4 +1,4 @@
-package OrderingSystem.Checkout;
+package OrderingSystem.Checkout.Entities;
 
 import OrderingSystem.Orders.Entities.OrderStatus;
 

@@ -1,5 +1,6 @@
-package OrderingSystem.Authentication;
+package OrderingSystem.Authentication.Controller;
 
+import OrderingSystem.Authentication.Service.AuthenticationService;
 import OrderingSystem.OrderingSystemApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +34,6 @@ public class AuthenticationController {
         return ResponseEntity.ok("logged out Successfully");
     }
 
-    // for testing only
-    @GetMapping("getActiveUserEmail")
-    public String getEmail(){
-        if(OrderingSystemApplication.getActiveUser() == null){
-            return "there is no active user";
-        }
-        return OrderingSystemApplication.getActiveUser().getEmail();
-    }
+
 
 }

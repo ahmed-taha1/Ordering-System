@@ -1,7 +1,7 @@
 package OrderingSystem.Checkout.Controller;
 
-import OrderingSystem.Checkout.CheckoutDetails;
-import OrderingSystem.Checkout.CheckoutService;
+import OrderingSystem.Checkout.Entities.CheckoutDetails;
+import OrderingSystem.Checkout.Service.CheckoutService;
 import OrderingSystem.Exceptions.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

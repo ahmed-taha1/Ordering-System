@@ -1,6 +1,8 @@
-package OrderingSystem.Customer;
+package OrderingSystem.Customer.Entities;
 
 import OrderingSystem.Address.Address;
+import OrderingSystem.Exceptions.CustomException;
+import OrderingSystem.StatusCodes.StatusCodes;
 
 public class Customer {
     private final String email;
@@ -8,7 +10,9 @@ public class Customer {
     private final String phoneNumber;
     private double balance;
     private final Address address;
-    public Customer(String email, String password, String phoneNumber, double balance, Address address) {
+    private final String name;
+    public Customer(String name,String email, String password, String phoneNumber, double balance, Address address) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -30,9 +34,10 @@ public class Customer {
     public Address getAddress(){
         return address;
     }
+    public String getName(){return name;}
     public void withdraw(double amount) throws Exception {
         if(amount > balance){
-            throw new Exception("Insufficient Balance");
+            throw new CustomException(StatusCodes.FORBIDDEN,"Insufficient Balance");
         }
         this.balance -= amount;
     }
