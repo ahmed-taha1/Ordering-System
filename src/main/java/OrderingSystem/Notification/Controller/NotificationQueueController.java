@@ -1,5 +1,6 @@
-package OrderingSystem.Notification;
+package OrderingSystem.Notification.Controller;
 
+import OrderingSystem.Notification.Service.NotificationSchedulerService;
 import OrderingSystem.OrderingSystemApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

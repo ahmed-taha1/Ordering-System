@@ -4,10 +4,9 @@ package OrderingSystem.Orders.Service;
 import OrderingSystem.Customer.Entities.Customer;
 import OrderingSystem.Customer.Service.CustomerService;
 import OrderingSystem.Exceptions.CustomException;
-import OrderingSystem.Notification.Entities.INotification;
 import OrderingSystem.Notification.Entities.NotificationType;
-import OrderingSystem.Notification.NotificationSchedulerService;
-import OrderingSystem.Notification.Templates;
+import OrderingSystem.Notification.Service.NotificationSchedulerService;
+import OrderingSystem.Notification.factories.TemplatesFactory;
 import OrderingSystem.OrderingSystemApplication;
 import OrderingSystem.Orders.Controller.RequestBodyRecords;
 import OrderingSystem.Orders.DataAccess.IOrderDataAccess;
@@ -16,7 +15,6 @@ import OrderingSystem.Orders.Factories.OrdersFactory;
 import OrderingSystem.Products.Entities.Product;
 import OrderingSystem.Products.Service.ProductsService;
 import OrderingSystem.StatusCodes.StatusCodes;
-import io.micrometer.observation.GlobalObservationConvention;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +43,7 @@ public class OrdersService {
             if(customer == null){
                 throw new CustomException(StatusCodes.BAD_REQUEST,"User with email "+orderDetails.orderOwnerEmail()+ " doesn't not exist");
             }
-            String message = Templates.createPlaceOrderMessage(customer.getName(),order.getProductsNames());
+            String message = TemplatesFactory.createPlaceOrderMessage(customer.getName(),order.getProductsNames());
             notificationSchedulerService.scheduleNotification(loggedInUserEmail, notificationType, message);
         }
         IOrderComponent order = ordersFactory.createOrder(orderType,loggedInUserEmail,orders);
@@ -64,7 +62,7 @@ public class OrdersService {
             throw new CustomException(StatusCodes.FORBIDDEN,"Cannot Cancel an "+order.getOrderStatus()+" Order");
         }
         orderDataAccess.deleteOrder(orderBodyRequest.id());
-        String message = Templates.cancelOrderMessage(loggedInUserEmail, orderBodyRequest.id());
+        String message = TemplatesFactory.cancelOrderMessage(loggedInUserEmail, orderBodyRequest.id());
         notificationSchedulerService.scheduleNotification(loggedInUserEmail, notificationType, message);
     }
     public static IOrderComponent findOrder(int orderId){

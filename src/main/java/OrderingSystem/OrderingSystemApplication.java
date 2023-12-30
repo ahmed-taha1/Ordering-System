@@ -3,7 +3,7 @@ import OrderingSystem.Customer.Entities.Customer;
 import OrderingSystem.Customer.DataAccess.ICustomersDataAccess;
 import OrderingSystem.Customer.DataAccess.InMemoryCustomersDataAccess;
 import OrderingSystem.Notification.Entities.NotificationType;
-import OrderingSystem.Notification.NotificationSchedulerService;
+import OrderingSystem.Notification.Service.NotificationSchedulerService;
 import OrderingSystem.Orders.DataAccess.IOrderDataAccess;
 import OrderingSystem.Orders.DataAccess.InMemoryOrdersDataAccess;
 import OrderingSystem.Orders.Factories.OrdersFactory;
@@ -15,7 +15,6 @@ import org.springframework.boot.SpringApplication;
 // todo add order statistics and notification stats
 @SpringBootApplication
 public class OrderingSystemApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(OrderingSystemApplication.class, args);
     }

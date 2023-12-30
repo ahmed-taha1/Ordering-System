@@ -1,7 +1,7 @@
-package OrderingSystem.Notification;
+package OrderingSystem.Notification.factories;
 import java.util.Collection;
 
-public class Templates {
+public class TemplatesFactory {
     public static String createPlaceOrderMessage(String name, Collection<String> productsNames){
         String message = "Dear " + name + " , your booking of the: ";
         for(String productName : productsNames){

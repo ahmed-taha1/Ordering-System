@@ -6,10 +6,9 @@ import OrderingSystem.Customer.Entities.Customer;
 import OrderingSystem.Customer.DataAccess.ICustomersDataAccess;
 import OrderingSystem.Exceptions.CustomException;
 import OrderingSystem.Notification.Entities.NotificationType;
-import OrderingSystem.Notification.NotificationSchedulerService;
-import OrderingSystem.Notification.Templates;
+import OrderingSystem.Notification.Service.NotificationSchedulerService;
+import OrderingSystem.Notification.factories.TemplatesFactory;
 import OrderingSystem.OrderingSystemApplication;
-import OrderingSystem.Orders.Controller.RequestBodyRecords;
 import OrderingSystem.Orders.Entities.IOrderComponent;
 import OrderingSystem.Orders.Entities.OrderStatus;
 import OrderingSystem.Orders.Entities.SimpleOrder;
@@ -50,7 +49,7 @@ public class CheckoutService {
         order.updateOrderStatus(OrderStatus.shipped);
         OrdersService.updateOrder(order);
         for(CheckoutDetails details:checkoutDetails){
-            String message = Templates.createCheckoutMessage(details.getOwnerName(),details.getOrderPrice(),details.getShippingCost());
+            String message = TemplatesFactory.createCheckoutMessage(details.getOwnerName(),details.getOrderPrice(),details.getShippingCost());
             notificationSchedulerService.scheduleNotification(loggedInUserEmail, notificationType, message);
         }
        return checkoutDetails;

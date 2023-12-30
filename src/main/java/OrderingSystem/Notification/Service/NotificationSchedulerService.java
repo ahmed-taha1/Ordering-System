@@ -1,7 +1,8 @@
-package OrderingSystem.Notification;
+package OrderingSystem.Notification.Service;
 
 import OrderingSystem.Notification.Entities.INotification;
 import OrderingSystem.Notification.Entities.NotificationType;
+import OrderingSystem.Notification.Entities.NotificationQueue;
 import OrderingSystem.Notification.factories.NotificationFactory;
 
 import java.util.Collection;
@@ -43,7 +44,7 @@ public class NotificationSchedulerService extends Thread{
             start();
         }
     }
-    Collection<String> getQueuedMessages(){
+    public Collection<String> getQueuedMessages(){
         System.out.println("Getting queue");
         return notificationQueue.getQueuedMessages();
     }

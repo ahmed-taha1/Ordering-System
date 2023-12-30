@@ -1,4 +1,4 @@
-package OrderingSystem.Notification;
+package OrderingSystem.Notification.Entities;
 
 import OrderingSystem.Notification.Entities.INotification;
 
@@ -19,7 +19,7 @@ public class NotificationQueue {
     public void addNotification(INotification notification){
         notifications.add(notification);
     }
-    Collection<String> getQueuedMessages(){
+    public Collection<String> getQueuedMessages(){
         return notifications.stream()
                 .map(INotification::getMessage)
                 .collect(Collectors.toCollection(ArrayList::new));
