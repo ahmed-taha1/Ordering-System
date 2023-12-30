@@ -1,9 +1,6 @@
 package OrderingSystem.Notification.factories;
 
-import OrderingSystem.Notification.Entities.EmailNotification;
-import OrderingSystem.Notification.Entities.INotification;
-import OrderingSystem.Notification.Entities.NotificationType;
-import OrderingSystem.Notification.Entities.SMSNotification;
+import OrderingSystem.Notification.Entities.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +19,7 @@ public class NotificationFactory {
         }
         return factoryInstance;
     }
-    public INotification createNotificationService(NotificationType notificationType,String sender,String receiver, String message){
+    public INotification createNotificationService(NotificationType notificationType,String sender,String receiver, TemplateMessage message){
         if(Objects.equals(notificationType, NotificationType.email)){
             return new EmailNotification(sender,receiver, message);
         }

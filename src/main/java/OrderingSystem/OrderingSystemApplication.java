@@ -2,6 +2,8 @@ package OrderingSystem;
 import OrderingSystem.Customer.Entities.Customer;
 import OrderingSystem.Customer.DataAccess.ICustomersDataAccess;
 import OrderingSystem.Customer.DataAccess.InMemoryCustomersDataAccess;
+import OrderingSystem.Notification.DataAccess.INotificationDataAccess;
+import OrderingSystem.Notification.DataAccess.InMemoryNotificationDataAccess;
 import OrderingSystem.Notification.Entities.NotificationType;
 import OrderingSystem.Notification.Service.NotificationSchedulerService;
 import OrderingSystem.Orders.DataAccess.IOrderDataAccess;
@@ -12,7 +14,6 @@ import OrderingSystem.Products.DataAccess.InMemoryProductsDataAccess;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 
-// todo add order statistics and notification stats
 @SpringBootApplication
 public class OrderingSystemApplication {
     public static void main(String[] args) {
@@ -22,6 +23,7 @@ public class OrderingSystemApplication {
     private final static ICustomersDataAccess customersDataAccess = InMemoryCustomersDataAccess.getInstance();
     private final static IOrderDataAccess orderDataAccess = InMemoryOrdersDataAccess.getInstance();
     private final static IProductsDataAccess productsDataAccess = InMemoryProductsDataAccess.getInstance();
+    private final static INotificationDataAccess notificationDataAccess = InMemoryNotificationDataAccess.getInstance();
     private final static OrdersFactory ordersFactory = OrdersFactory.getInstance();
     private final static NotificationSchedulerService notificationSchedulerService = NotificationSchedulerService.getInstance();
     private final static NotificationType notificationType = NotificationType.email;
@@ -46,5 +48,8 @@ public class OrderingSystemApplication {
     public static NotificationType getNotificationType(){return  notificationType;}
     public static NotificationSchedulerService getNotificationSchedulerService(){
         return notificationSchedulerService;
+    }
+    public static INotificationDataAccess getNotificationDataAccess() {
+        return notificationDataAccess;
     }
 }

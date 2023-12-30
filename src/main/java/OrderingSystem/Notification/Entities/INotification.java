@@ -2,5 +2,6 @@ package OrderingSystem.Notification.Entities;
 
 public interface INotification {
     void sendNotification();
-    String getMessage();
+    TemplateMessage getMessage();
+    String getReceiver();
 }

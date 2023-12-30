@@ -19,7 +19,7 @@ public class NotificationQueue {
     public void addNotification(INotification notification){
         notifications.add(notification);
     }
-    public Collection<String> getQueuedMessages(){
+    public Collection<TemplateMessage> getQueuedMessages(){
         return notifications.stream()
                 .map(INotification::getMessage)
                 .collect(Collectors.toCollection(ArrayList::new));

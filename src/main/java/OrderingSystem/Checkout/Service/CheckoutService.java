@@ -49,8 +49,7 @@ public class CheckoutService {
         order.updateOrderStatus(OrderStatus.shipped);
         OrdersService.updateOrder(order);
         for(CheckoutDetails details:checkoutDetails){
-            String message = TemplatesFactory.createCheckoutMessage(details.getOwnerName(),details.getOrderPrice(),details.getShippingCost());
-            notificationSchedulerService.scheduleNotification(loggedInUserEmail, notificationType, message);
+            notificationSchedulerService.scheduleNotification(loggedInUserEmail, notificationType, TemplatesFactory.createCheckoutMessage(details.getOwnerName(),details.getOrderPrice(),details.getShippingCost()));
         }
        return checkoutDetails;
     }

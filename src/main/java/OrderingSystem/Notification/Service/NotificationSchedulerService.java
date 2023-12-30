@@ -1,15 +1,19 @@
 package OrderingSystem.Notification.Service;
 
+import OrderingSystem.Notification.DataAccess.INotificationDataAccess;
 import OrderingSystem.Notification.Entities.INotification;
 import OrderingSystem.Notification.Entities.NotificationType;
 import OrderingSystem.Notification.Entities.NotificationQueue;
+import OrderingSystem.Notification.Entities.TemplateMessage;
 import OrderingSystem.Notification.factories.NotificationFactory;
+import OrderingSystem.OrderingSystemApplication;
 
 import java.util.Collection;
 
 public class NotificationSchedulerService extends Thread{
     private static final NotificationFactory notificationFactory = NotificationFactory.getInstance();
     private static final NotificationQueue notificationQueue = new NotificationQueue();
+    private static final INotificationDataAccess notificationDataAccess = OrderingSystemApplication.getNotificationDataAccess();
     private static final int WAIT_TIME = 10000;
     private static NotificationSchedulerService instance = null;
     private boolean schedulerStarted ;
@@ -29,6 +33,7 @@ public class NotificationSchedulerService extends Thread{
                 INotification notificationToBeSent = notificationQueue.getNextNotification();
                 if(notificationToBeSent != null){
                     notificationToBeSent.sendNotification();
+                    NotificationStatisticsService.storeNotification(notificationToBeSent);
                 }
             }catch (Exception exception){
                 System.out.println("Error when sleeping thread to schedule Notification Queue");
@@ -36,16 +41,15 @@ public class NotificationSchedulerService extends Thread{
         }
 
     }
-    public void scheduleNotification(String receiverEmail, NotificationType notificationType, String message){
-        INotification notification = notificationFactory.createNotificationService(notificationType,"OrdersAppSystem@gmail.com",receiverEmail,message);
+    public void scheduleNotification(String receiverEmail, NotificationType notificationType, TemplateMessage templateMessage){
+        INotification notification = notificationFactory.createNotificationService(notificationType,"OrdersAppSystem@gmail.com",receiverEmail,templateMessage);
         notificationQueue.addNotification(notification);
         if(!schedulerStarted){
             schedulerStarted = true;
             start();
         }
     }
-    public Collection<String> getQueuedMessages(){
-        System.out.println("Getting queue");
+    public Collection<TemplateMessage> getQueuedMessages(){
         return notificationQueue.getQueuedMessages();
     }
     @Override
