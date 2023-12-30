@@ -16,6 +16,7 @@ import OrderingSystem.Orders.Factories.OrdersFactory;
 import OrderingSystem.Products.Entities.Product;
 import OrderingSystem.Products.Service.ProductsService;
 import OrderingSystem.StatusCodes.StatusCodes;
+import io.micrometer.observation.GlobalObservationConvention;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +26,9 @@ public class OrdersService {
     private static final IOrderDataAccess orderDataAccess = OrderingSystemApplication.getOrderDataAccess();
     private static final OrdersFactory ordersFactory = OrderingSystemApplication.getOrdersFactory();
     private static final NotificationType notificationType = OrderingSystemApplication.getNotificationType();
-    public static int placeOrder(RequestBodyRecords.PlaceOrderBodyRequest orderBodyRequest, String mainOwnerEmail)throws CustomException{
+    private static final NotificationSchedulerService notificationSchedulerService = OrderingSystemApplication.getNotificationSchedulerService();
+
+    public static int placeOrder(RequestBodyRecords.PlaceOrderBodyRequest orderBodyRequest, String loggedInUserEmail)throws CustomException{
         OrderType orderType = orderBodyRequest.orderType();
         Collection<RequestBodyRecords.OrderDetailsRecord> orderDetailsRecord = orderBodyRequest.orders();
         List<SimpleOrder> orders = new ArrayList<>();
@@ -43,11 +46,26 @@ public class OrdersService {
                 throw new CustomException(StatusCodes.BAD_REQUEST,"User with email "+orderDetails.orderOwnerEmail()+ " doesn't not exist");
             }
             String message = Templates.createPlaceOrderMessage(customer.getName(),order.getProductsNames());
-            NotificationSchedulerService.scheduleNotification(customer.getEmail(), notificationType, message);
+            notificationSchedulerService.scheduleNotification(loggedInUserEmail, notificationType, message);
         }
-        IOrderComponent order = ordersFactory.createOrder(orderType,mainOwnerEmail,orders);
+        IOrderComponent order = ordersFactory.createOrder(orderType,loggedInUserEmail,orders);
         orderDataAccess.insertOrder(order);
         return order.getId();
+    }
+    public static void cancelOrder(RequestBodyRecords.CancelOrderBodyRequest orderBodyRequest,String loggedInUserEmail)throws CustomException{
+        IOrderComponent order = findOrder(orderBodyRequest.id());
+        if(order == null){
+            throw new CustomException(StatusCodes.NOT_FOUND,"This Order doesn't Exist");
+        }
+        if(order.getMainOrderOwner() != loggedInUserEmail){
+            throw new CustomException(StatusCodes.UN_AUTHORIZED,"Cannot delete an order that doesn't belong to you");
+        }
+        if(order.getOrderStatus() != OrderStatus.preparing){
+            throw new CustomException(StatusCodes.FORBIDDEN,"Cannot Cancel an "+order.getOrderStatus()+" Order");
+        }
+        orderDataAccess.deleteOrder(orderBodyRequest.id());
+        String message = Templates.cancelOrderMessage(loggedInUserEmail, orderBodyRequest.id());
+        notificationSchedulerService.scheduleNotification(loggedInUserEmail, notificationType, message);
     }
     public static IOrderComponent findOrder(int orderId){
         return orderDataAccess.getOrderById(orderId);

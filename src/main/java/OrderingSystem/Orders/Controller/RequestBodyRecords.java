@@ -21,4 +21,7 @@ public class RequestBodyRecords {
     public record GetOrderDetailsBodyRequest(
             int id
     ){}
+    public record CancelOrderBodyRequest(
+            int id
+    ){}
 }

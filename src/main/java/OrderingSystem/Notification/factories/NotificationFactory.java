@@ -22,12 +22,12 @@ public class NotificationFactory {
         }
         return factoryInstance;
     }
-    public INotification createNotificationService(NotificationType notificationType,String sender,String receiver){
+    public INotification createNotificationService(NotificationType notificationType,String sender,String receiver, String message){
         if(Objects.equals(notificationType, NotificationType.email)){
-            return new EmailNotification(sender,receiver);
+            return new EmailNotification(sender,receiver, message);
         }
         if(Objects.equals(notificationType, NotificationType.sms)){
-            return new SMSNotification(sender,receiver);
+            return new SMSNotification(sender,receiver, message);
         }
         return null;
     }

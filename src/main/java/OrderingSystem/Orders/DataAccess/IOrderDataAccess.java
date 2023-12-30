@@ -10,4 +10,5 @@ public interface IOrderDataAccess {
     void insertOrder(IOrderComponent order);
     void updateOrder(IOrderComponent order);
     int getNextOrderID();
+    void deleteOrder(int orderId);
 }

@@ -30,7 +30,23 @@ public class OrdersController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyRecords.placeOrderFailedRecord(exception.getMessage()));
         }
     }
-    @GetMapping("/details")
+    @PostMapping(path = "cancel")
+    public ResponseEntity<Object> cancelOrder(@RequestBody RequestBodyRecords.CancelOrderBodyRequest request){
+        Customer activeUser = OrderingSystemApplication.getActiveUser();
+        if(activeUser == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "please login first"));
+        }
+        try {
+            OrdersService.cancelOrder(request, activeUser.getEmail());
+        } catch (Exception exception){
+            if(exception instanceof CustomException) {
+                return ResponseEntity.status(((CustomException) exception).getStatusCode()).body(Map.of("message", exception.getMessage()));
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", exception));
+        }
+        return ResponseEntity.ok().body(Map.of("message", "order has been deleted!"));
+    }
+    @GetMapping("details")
     public ResponseEntity<Object> getOrderDetails(@RequestBody RequestBodyRecords.GetOrderDetailsBodyRequest request){
         IOrderComponent orderComponent = OrdersService.findOrder(request.id());
         if(orderComponent == null){

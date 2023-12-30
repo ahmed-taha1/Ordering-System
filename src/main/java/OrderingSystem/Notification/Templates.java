@@ -11,8 +11,13 @@ public class Templates {
         return message;
     }
 
-    public static String createCheckoutMessage(String name, double totalCost, double shippingCost, double newBalance){
-        String message = "Dear " + name + " , order has been successfully paid, with total cost: " + totalCost + ", shipping cost: " + shippingCost + ", your new balance is: " + newBalance;
+    public static String createCheckoutMessage(String name, double totalCost, double shippingCost){
+        String message = "Dear " + name + " , order has been successfully paid, with total cost: " + totalCost + ", shipping cost: " + shippingCost ;
+        message += " thanks for using our store :)";
+        return message;
+    }
+    public static String cancelOrderMessage(String name, int id){
+        String message = "Dear " + name + " , your order that with id: " + id + " has been canceled";
         message += " thanks for using our store :)";
         return message;
     }

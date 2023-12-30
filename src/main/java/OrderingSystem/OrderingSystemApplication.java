@@ -3,6 +3,7 @@ import OrderingSystem.Customer.Entities.Customer;
 import OrderingSystem.Customer.DataAccess.ICustomersDataAccess;
 import OrderingSystem.Customer.DataAccess.InMemoryCustomersDataAccess;
 import OrderingSystem.Notification.Entities.NotificationType;
+import OrderingSystem.Notification.NotificationSchedulerService;
 import OrderingSystem.Orders.DataAccess.IOrderDataAccess;
 import OrderingSystem.Orders.DataAccess.InMemoryOrdersDataAccess;
 import OrderingSystem.Orders.Factories.OrdersFactory;
@@ -12,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 
 // todo add observer pattern for notification queue
-// todo add order Cancellation
+// todo add queue controller
 // todo add order statistics and notification stats
 @SpringBootApplication
 public class OrderingSystemApplication {
@@ -25,6 +26,7 @@ public class OrderingSystemApplication {
     private final static IOrderDataAccess orderDataAccess = InMemoryOrdersDataAccess.getInstance();
     private final static IProductsDataAccess productsDataAccess = InMemoryProductsDataAccess.getInstance();
     private final static OrdersFactory ordersFactory = OrdersFactory.getInstance();
+    private final static NotificationSchedulerService notificationSchedulerService = NotificationSchedulerService.getInstance();
     private final static NotificationType notificationType = NotificationType.email;
     public static IOrderDataAccess getOrderDataAccess() {
         return orderDataAccess;
@@ -45,4 +47,7 @@ public class OrderingSystemApplication {
         return ordersFactory;
     }
     public static NotificationType getNotificationType(){return  notificationType;}
+    public static NotificationSchedulerService getNotificationSchedulerService(){
+        return notificationSchedulerService;
+    }
 }

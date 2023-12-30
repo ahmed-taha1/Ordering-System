@@ -50,4 +50,8 @@ public class InMemoryOrdersDataAccess implements IOrderDataAccess{
                 .max()
                 .orElse(0) + 1;
     }
+    @Override
+    public void deleteOrder(int orderId){
+        ordersDB.put(orderId,null);
+    }
 }
