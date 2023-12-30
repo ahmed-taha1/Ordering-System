@@ -14,4 +14,9 @@ public class EmailNotification implements INotification{
     public void sendNotification() {
         System.out.println("Sending SMS message from ("+senderMail+") to ("+receiverMail +"): "+message);
     }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

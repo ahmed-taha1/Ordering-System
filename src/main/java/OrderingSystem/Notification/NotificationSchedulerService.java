@@ -4,10 +4,12 @@ import OrderingSystem.Notification.Entities.INotification;
 import OrderingSystem.Notification.Entities.NotificationType;
 import OrderingSystem.Notification.factories.NotificationFactory;
 
+import java.util.Collection;
+
 public class NotificationSchedulerService extends Thread{
     private static final NotificationFactory notificationFactory = NotificationFactory.getInstance();
     private static final NotificationQueue notificationQueue = new NotificationQueue();
-    private static final int WAIT_TIME = 3000;
+    private static final int WAIT_TIME = 10000;
     private static NotificationSchedulerService instance = null;
     private boolean schedulerStarted ;
     private NotificationSchedulerService(){
@@ -22,9 +24,9 @@ public class NotificationSchedulerService extends Thread{
     private void sendNotification(){
         while (true){
             try {
+                Thread.sleep(WAIT_TIME);
                 INotification notificationToBeSent = notificationQueue.getNextNotification();
                 if(notificationToBeSent != null){
-                    Thread.sleep(WAIT_TIME);
                     notificationToBeSent.sendNotification();
                 }
             }catch (Exception exception){
@@ -41,7 +43,10 @@ public class NotificationSchedulerService extends Thread{
             start();
         }
     }
-
+    Collection<String> getQueuedMessages(){
+        System.out.println("Getting queue");
+        return notificationQueue.getQueuedMessages();
+    }
     @Override
     public void run() {
         super.run();

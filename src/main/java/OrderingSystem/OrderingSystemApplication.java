@@ -12,8 +12,6 @@ import OrderingSystem.Products.DataAccess.InMemoryProductsDataAccess;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 
-// todo add observer pattern for notification queue
-// todo add queue controller
 // todo add order statistics and notification stats
 @SpringBootApplication
 public class OrderingSystemApplication {
