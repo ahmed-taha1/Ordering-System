@@ -18,7 +18,7 @@ import java.util.Map;
 public class NotificationsController {
     NotificationSchedulerService notificationSchedulerService = OrderingSystemApplication.getNotificationSchedulerService();
     @GetMapping(path = "/")
-    public ResponseEntity<Object> getQueuedMessage(){
+    public ResponseEntity<Object> getQueuedMessages(){
         Collection<TemplateMessage>queuedMessage = notificationSchedulerService.getQueuedMessages();
         return ResponseEntity.ok(Map.of("notificationsQueue", queuedMessage));
     }

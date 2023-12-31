@@ -47,6 +47,8 @@ public class InMemoryProductsDataAccess implements IProductsDataAccess {
 
     @Override
     public Product getProductBySerialNumber(String serialNumber){
+        if(productsDB.get(serialNumber) == null)
+            return null;
         return productsDB.get(serialNumber).getProduct();
     }
 

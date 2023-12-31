@@ -5,6 +5,8 @@ import OrderingSystem.Products.DataAccess.IProductsDataAccess;
 import OrderingSystem.Products.DataAccess.InMemoryProductsDataAccess;
 import OrderingSystem.Products.Entities.Product;
 import OrderingSystem.Products.Service.ProductsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -19,12 +21,16 @@ public class ProductsController {
     }
 
     @GetMapping("getProductBySerialNumber")
-    public Map<String, Object> getProductBySerialNumber(@RequestBody getProductBySerialNumberBodyRequest request){
-        return Map.of("product", ProductsService.findProductBySerialNumber(request.serialNumber));
+    public Object getProductBySerialNumber(@RequestBody getProductBySerialNumberBodyRequest request){
+        Product product = ProductsService.findProductBySerialNumber(request.serialNumber);
+        if(product == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("product", "null", "message", "product not found"));
+        }
+        return Map.of("product", product, "message", "product found");
     }
 
     @GetMapping("/categories")
-    public Map<String, Object> getProductsCategoryCount(){
+    public Object getProductsCategoryCount(){
         return Map.of("categories", ProductsService.fetchProductsCount());
     }
     record getProductBySerialNumberBodyRequest(
