@@ -23,7 +23,14 @@ public class InMemoryCustomersDataAccess implements ICustomersDataAccess {
                     "ismailMagdy@gmail.com",
                     "password",
                     "01120293048",
-                    1200000,
+                    400000,
+                    new Address("haram", "giza")));
+        customersDB.put("ahmedHany@gmail.com", new Customer(
+                    "ahmed hany",
+                    "ahmedHany@gmail.com",
+                    "password",
+                    "01120293048",
+                    13000000,
                     new Address("haram", "giza")));
     }
 

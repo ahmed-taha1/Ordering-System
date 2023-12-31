@@ -14,7 +14,7 @@ public class NotificationSchedulerService extends Thread{
     private static final NotificationFactory notificationFactory = NotificationFactory.getInstance();
     private static final NotificationQueue notificationQueue = new NotificationQueue();
     private static final INotificationDataAccess notificationDataAccess = OrderingSystemApplication.getNotificationDataAccess();
-    private static final int WAIT_TIME = 10000;
+    private static final int WAIT_TIME = 20000;
     private static NotificationSchedulerService instance = null;
     private boolean schedulerStarted ;
     private NotificationSchedulerService(){
