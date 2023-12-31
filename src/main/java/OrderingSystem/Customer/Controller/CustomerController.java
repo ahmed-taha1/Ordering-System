@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,10 @@ public class CustomerController {
             response.put("message", "please login first");
         }
         else {
-            response.put("profile", new ResponseBodyRecords.getProfileResponse(customer.getEmail(),customer.getAddress(), customer.getBalance(), customer.getName()));
+            double balance = customer.getBalance();
+            DecimalFormat decimalFormat = new DecimalFormat("#.####");
+            String formattedBalance = decimalFormat.format(balance);
+            response.put("profile", new ResponseBodyRecords.getProfileResponse(customer.getEmail(),customer.getAddress(), formattedBalance, customer.getName()));
         }
         return response;
     }

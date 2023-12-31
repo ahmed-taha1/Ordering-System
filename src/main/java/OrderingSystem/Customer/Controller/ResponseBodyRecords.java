@@ -6,7 +6,7 @@ public class ResponseBodyRecords {
     public record getProfileResponse(
             String email,
             Address address,
-            double balance,
+            String balance,
             String name
     ){}
 }
